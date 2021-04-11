@@ -1,0 +1,14 @@
+.button {
+  background: #252525;
+  width: 65px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  cursor: pointer;
+}
+.button.double {
+  width: 133px;
+  grid-column: 1 / span 2;
+}
