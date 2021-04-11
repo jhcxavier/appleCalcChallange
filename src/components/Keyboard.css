@@ -1,5 +1,5 @@
 .button {
-  background: #252525;
+  background: #807f7f;
   width: 65px;
   height: 60px;
   display: flex;
@@ -9,6 +9,12 @@
   cursor: pointer;
 }
 .button.double {
-  width: 133px;
+  width: 131px;
   grid-column: 1 / span 2;
+}
+.button.lastColumn {
+  background: #f49e3f;
+}
+.button.firstThree {
+  background: #676666;
 }

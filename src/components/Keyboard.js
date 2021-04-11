@@ -1,9 +1,11 @@
 import React from "react";
 import "./Keyboard.css";
 
-const keyboard = ({ value }) => {
+const keyboard = ({ value, type }) => {
   return (
-    <div className={`button ${value === "0" ? "double" : ""}`}>{value}</div>
+    <div className={`button ${value === "0" ? "double" : ""} ${type || ""}`}>
+      {value}
+    </div>
   );
 };
 export default keyboard;
