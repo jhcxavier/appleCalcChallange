@@ -1,7 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Keyboard from "./components/Keyboard";
 function App() {
+  const [value, setValue] = useState("0");
+  const [temp, setTemp] = useState(null);
+  const [ac, setAc] = useState("AC");
+  const getResult = (temp, value, operation) => {
+    if (operation === "+") {
+      return temp + value;
+    }
+  };
+
+  const updateValue = (key) => () => {
+    setTemp(value);
+    if (value === "0" && key !== "AC" && key !== "+/-" && key !== "%") {
+      setValue(key);
+      return;
+    }
+    if (key === "AC" || key === "C") {
+      setValue("0");
+      setTemp(null);
+      return;
+    }
+    if (key === "+/-") {
+      setValue((parseFloat(value) * -1).toString());
+      return;
+    }
+    if (key === "%" && value !== "0") {
+      setValue((parseFloat(value) / 100).toString());
+      setTemp(null);
+      return;
+    }
+    if (key === "+") {
+      setTemp(parseFloat(value));
+      setValue("0");
+      return;
+    }
+    if (key === "=") {
+      console.log("getresult", getResult(temp, value, "+"));
+    }
+    setValue(parseFloat(parseFloat(value) + key).toString());
+  };
+  useEffect(() => {
+    if (value === "0") {
+      setAc("AC");
+    } else {
+      setAc("C");
+    }
+  }, [value]);
   return (
     <div>
       <div className="App">
@@ -10,27 +56,29 @@ function App() {
           <div className="dots" id="yellow"></div>
           <div className="dots" id="green"></div>
         </div>
-        <div className="input">0</div>
+        <div className="input" value={value}>
+          {value}
+        </div>
         <div className="keyboard">
-          <Keyboard value="AC" type="firstThree" />
-          <Keyboard value="+/-" type="firstThree" />
-          <Keyboard value="%" type="firstThree" />
-          <Keyboard value="÷" type="lastColumn" />
-          <Keyboard value="7" />
-          <Keyboard value="8" />
-          <Keyboard value="9" />
-          <Keyboard value="×" type="lastColumn" />
-          <Keyboard value="4" />
-          <Keyboard value="5" />
-          <Keyboard value="6" />
-          <Keyboard value="-" type="lastColumn" />
-          <Keyboard value="1" />
-          <Keyboard value="2" />
-          <Keyboard value="3" />
-          <Keyboard value="+" type="lastColumn" />
-          <Keyboard value="0" />
-          <Keyboard value="." />
-          <Keyboard value="=" type="lastColumn" />
+          <Keyboard value={ac} updateValue={updateValue} type="firstThree" />
+          <Keyboard value="+/-" updateValue={updateValue} type="firstThree" />
+          <Keyboard value="%" updateValue={updateValue} type="firstThree" />
+          <Keyboard value="÷" updateValue={updateValue} type="lastColumn" />
+          <Keyboard value="7" updateValue={updateValue} />
+          <Keyboard value="8" updateValue={updateValue} />
+          <Keyboard value="9" updateValue={updateValue} />
+          <Keyboard value="×" updateValue={updateValue} type="lastColumn" />
+          <Keyboard value="4" updateValue={updateValue} />
+          <Keyboard value="5" updateValue={updateValue} />
+          <Keyboard value="6" updateValue={updateValue} />
+          <Keyboard value="-" updateValue={updateValue} type="lastColumn" />
+          <Keyboard value="1" updateValue={updateValue} />
+          <Keyboard value="2" updateValue={updateValue} />
+          <Keyboard value="3" updateValue={updateValue} />
+          <Keyboard value="+" updateValue={updateValue} type="lastColumn" />
+          <Keyboard value="0" updateValue={updateValue} />
+          <Keyboard value="." updateValue={updateValue} />
+          <Keyboard value="=" updateValue={updateValue} type="lastColumn" />
         </div>
         <div className="bottom"></div>
       </div>
