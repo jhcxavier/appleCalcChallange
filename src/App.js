@@ -5,14 +5,32 @@ function App() {
   const [value, setValue] = useState("0");
   const [temp, setTemp] = useState(null);
   const [ac, setAc] = useState("AC");
+  const [operation, setOperation] = useState(null);
   const getResult = (temp, value, operation) => {
+    value = parseFloat(value);
     if (operation === "+") {
-      return temp + value;
+      value = (temp + value).toString();
+
+      return value;
+    } else if (operation === "-") {
+      value = (temp - value).toString();
+
+      return value;
+    } else if (operation === "÷") {
+      value = (temp / value).toString();
+
+      return value;
+    } else if (operation === "×") {
+      value = (temp * value).toString();
+
+      return value;
     }
+
+    return (temp + parseFloat(value)).toString();
   };
 
   const updateValue = (key) => () => {
-    setTemp(value);
+    // setTemp(value);
     if (value === "0" && key !== "AC" && key !== "+/-" && key !== "%") {
       setValue(key);
       return;
@@ -34,12 +52,34 @@ function App() {
     if (key === "+") {
       setTemp(parseFloat(value));
       setValue("0");
+      setOperation("+");
+      return;
+    }
+    if (key === "-") {
+      setTemp(parseFloat(value));
+      setValue("0");
+      setOperation("-");
+      return;
+    }
+    if (key === "÷") {
+      setTemp(parseFloat(value));
+      setValue("0");
+      setOperation("÷");
+      return;
+    }
+    if (key === "×") {
+      setTemp(parseFloat(value));
+      setValue("0");
+      setOperation("×");
       return;
     }
     if (key === "=") {
-      console.log("getresult", getResult(temp, value, "+"));
+      setValue(getResult(temp, value, operation));
+      // console.log("test", test);
+      return;
     }
     setValue(parseFloat(parseFloat(value) + key).toString());
+    // setTemp(value);
   };
   useEffect(() => {
     if (value === "0") {
