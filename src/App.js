@@ -1,6 +1,8 @@
+/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Keyboard from "./components/Keyboard";
+import { key } from "../src/utilities";
 function App() {
   const [value, setValue] = useState("0");
   const [temp, setTemp] = useState(null);
@@ -75,11 +77,9 @@ function App() {
     }
     if (key === "=") {
       setValue(getResult(temp, value, operation));
-      // console.log("test", test);
       return;
     }
     setValue(parseFloat(parseFloat(value) + key).toString());
-    // setTemp(value);
   };
   useEffect(() => {
     if (value === "0") {
@@ -100,27 +100,35 @@ function App() {
           {value}
         </div>
         <div className="keyboard">
-          <Keyboard value={ac} updateValue={updateValue} type="firstThree" />
-          <Keyboard value="+/-" updateValue={updateValue} type="firstThree" />
-          <Keyboard value="%" updateValue={updateValue} type="firstThree" />
-          <Keyboard value="÷" updateValue={updateValue} type="lastColumn" />
-          <Keyboard value="7" updateValue={updateValue} />
-          <Keyboard value="8" updateValue={updateValue} />
-          <Keyboard value="9" updateValue={updateValue} />
-          <Keyboard value="×" updateValue={updateValue} type="lastColumn" />
-          <Keyboard value="4" updateValue={updateValue} />
-          <Keyboard value="5" updateValue={updateValue} />
-          <Keyboard value="6" updateValue={updateValue} />
-          <Keyboard value="-" updateValue={updateValue} type="lastColumn" />
-          <Keyboard value="1" updateValue={updateValue} />
-          <Keyboard value="2" updateValue={updateValue} />
-          <Keyboard value="3" updateValue={updateValue} />
-          <Keyboard value="+" updateValue={updateValue} type="lastColumn" />
-          <Keyboard value="0" updateValue={updateValue} />
-          <Keyboard value="." updateValue={updateValue} />
-          <Keyboard value="=" updateValue={updateValue} type="lastColumn" />
+          {key.map((e, index) => {
+            const options1 = e === ac || e === "+/-" || e === "%";
+            const options2 =
+              e === "÷" || e === "×" || e === "-" || e === "+" || e === "=";
+            if (options1) {
+              return (
+                <Keyboard
+                  key={index}
+                  value={e}
+                  updateValue={updateValue}
+                  type="firstThree"
+                />
+              );
+            } else if (options2) {
+              return (
+                <Keyboard
+                  key={index}
+                  value={e}
+                  updateValue={updateValue}
+                  type="lastColumn"
+                />
+              );
+            } else {
+              return (
+                <Keyboard key={index} value={e} updateValue={updateValue} />
+              );
+            }
+          })}
         </div>
-        <div className="bottom"></div>
       </div>
     </div>
   );
