@@ -81,10 +81,7 @@ function App() {
     }
     setValue(parseFloat(parseFloat(value) + key).toString());
   };
-  const updateKeyAc = (e) => {
-    e = ac;
-    return e;
-  };
+
   useEffect(() => {
     if (value === "0") {
       setAc("AC");
