@@ -3,20 +3,41 @@ export const key = [
   "+/-",
   "%",
   "÷",
-  7,
-  8,
-  9,
+  "7",
+  "8",
+  "9",
   "×",
-  4,
-  5,
-  6,
+  "4",
+  "5",
+  "6",
   "-",
-  1,
-  2,
-  3,
+  "1",
+  "2",
+  "3",
   "+",
-  0,
-  "",
+  "0",
   ".",
   "=",
 ];
+
+export const getResult = (temp, value, operation) => {
+  value = parseFloat(value);
+  if (operation === "+") {
+    value = (temp + value).toString();
+
+    return value;
+  } else if (operation === "-") {
+    value = (temp - value).toString();
+
+    return value;
+  } else if (operation === "÷") {
+    value = (temp / value).toString();
+
+    return value;
+  } else if (operation === "×") {
+    value = (temp * value).toString();
+
+    return value;
+  }
+  return (temp + parseFloat(value)).toString();
+};

@@ -81,6 +81,10 @@ function App() {
     }
     setValue(parseFloat(parseFloat(value) + key).toString());
   };
+  const updateKeyAc = (e) => {
+    e = ac;
+    return e;
+  };
   useEffect(() => {
     if (value === "0") {
       setAc("AC");
@@ -101,14 +105,14 @@ function App() {
         </div>
         <div className="keyboard">
           {key.map((e, index) => {
-            const options1 = e === ac || e === "+/-" || e === "%";
+            const options1 = e === "AC" || e === "+/-" || e === "%";
             const options2 =
               e === "÷" || e === "×" || e === "-" || e === "+" || e === "=";
             if (options1) {
               return (
                 <Keyboard
                   key={index}
-                  value={e}
+                  value={e === "AC" || e === "C" ? (e = ac) : e}
                   updateValue={updateValue}
                   type="firstThree"
                 />
