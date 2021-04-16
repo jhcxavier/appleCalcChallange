@@ -41,6 +41,7 @@ function App() {
     }
     if (key === "AC" || key === "C") {
       setValue("0");
+      setInputSize("60");
       setTemp(null);
       return;
     }
@@ -53,7 +54,10 @@ function App() {
       setTemp(null);
       return;
     }
-    if (value.length >= 9) {
+    if (value.length >= 9 && key === "+/-") {
+      setValue((parseFloat(value) * -1).toString());
+      return;
+    } else if (value.length >= 9) {
       return;
     }
     if (key === "+") {
@@ -110,6 +114,9 @@ function App() {
     }
     if (inputLength > 9) {
       setInputSize("50");
+    }
+    if (inputLength >= 10) {
+      setInputSize("48");
     }
   }, [value]);
   return (
