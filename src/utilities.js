@@ -41,3 +41,6 @@ export const getResult = (temp, value, operation) => {
   }
   return (temp + parseFloat(value)).toString();
 };
+export const numberWithCommas = (x) => {
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+};

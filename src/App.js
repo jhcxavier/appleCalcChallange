@@ -2,37 +2,39 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Keyboard from "./components/Keyboard";
-import { key } from "../src/utilities";
+import { key, numberWithCommas } from "../src/utilities";
+
 function App() {
   const [value, setValue] = useState("0");
   const [temp, setTemp] = useState(null);
   const [ac, setAc] = useState("AC");
   const [operation, setOperation] = useState(null);
+  const [inputSize, setInputSize] = useState("60");
+  let styles = {
+    input: {
+      fontSize: `${inputSize}px`,
+    },
+  };
+
   const getResult = (temp, value, operation) => {
     value = parseFloat(value);
     if (operation === "+") {
       value = (temp + value).toString();
-
       return value;
     } else if (operation === "-") {
       value = (temp - value).toString();
-
       return value;
     } else if (operation === "÷") {
       value = (temp / value).toString();
-
       return value;
     } else if (operation === "×") {
       value = (temp * value).toString();
-
       return value;
     }
-
     return (temp + parseFloat(value)).toString();
   };
 
   const updateValue = (key) => () => {
-    // setTemp(value);
     if (value === "0" && key !== "AC" && key !== "+/-" && key !== "%") {
       setValue(key);
       return;
@@ -49,6 +51,9 @@ function App() {
     if (key === "%" && value !== "0") {
       setValue((parseFloat(value) / 100).toString());
       setTemp(null);
+      return;
+    }
+    if (value.length >= 9) {
       return;
     }
     if (key === "+") {
@@ -79,7 +84,18 @@ function App() {
       setValue(getResult(temp, value, operation));
       return;
     }
-    setValue(parseFloat(parseFloat(value) + key).toString());
+    if (key === ".") {
+      if (value.includes(key)) {
+        return;
+      }
+      setValue(value + ".");
+      return;
+    }
+    if (value.substr(-1) === ".") {
+      setValue(value + key);
+    } else {
+      setValue(parseFloat(parseFloat(value) + key).toString());
+    }
   };
 
   useEffect(() => {
@@ -87,6 +103,13 @@ function App() {
       setAc("AC");
     } else {
       setAc("C");
+    }
+    let inputLength = document.querySelector(".input").innerHTML.length;
+    if (inputLength > 7) {
+      setInputSize("55");
+    }
+    if (inputLength > 9) {
+      setInputSize("50");
     }
   }, [value]);
   return (
@@ -97,8 +120,8 @@ function App() {
           <div className="dots" id="yellow"></div>
           <div className="dots" id="green"></div>
         </div>
-        <div className="input" value={value}>
-          {value}
+        <div className="input" value={value} style={styles.input}>
+          {numberWithCommas(value)}
         </div>
         <div className="keyboard">
           {key.map((e, index) => {
