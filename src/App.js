@@ -35,7 +35,19 @@ function App() {
   };
 
   const updateValue = (key) => () => {
-    if (value === "0" && key !== "AC" && key !== "+/-" && key !== "%") {
+    if (
+      value === "0" &&
+      key !== "AC" &&
+      key !== "+/-" &&
+      key !== "%" &&
+      key !== "×" &&
+      key !== "-" &&
+      key !== "+" &&
+      key !== "÷" &&
+      key !== "=" &&
+      key !== "."
+    ) {
+      console.log("here", value);
       setValue(key);
       return;
     }
@@ -79,6 +91,7 @@ function App() {
       return;
     }
     if (key === "×") {
+      console.log("valueee", value);
       setTemp(parseFloat(value));
       setValue("0");
       setOperation("×");
@@ -98,6 +111,7 @@ function App() {
     if (value.substr(-1) === ".") {
       setValue(value + key);
     } else {
+      console.log("value", value);
       setValue(parseFloat(parseFloat(value) + key).toString());
     }
   };
@@ -127,7 +141,7 @@ function App() {
           <div className="dots" id="yellow"></div>
           <div className="dots" id="green"></div>
         </div>
-        <div className="input" value={value} style={styles.input}>
+        <div className="input" style={styles.input}>
           {numberWithCommas(value)}
         </div>
         <div className="keyboard">
