@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Keyboard from "./components/Keyboard";
-import { key, numberWithCommas } from "../src/utilities";
+import { key, numberWithCommas, getResult } from "../src/utilities";
 
 function App() {
   const [value, setValue] = useState("0");
@@ -10,44 +10,15 @@ function App() {
   const [ac, setAc] = useState("AC");
   const [operation, setOperation] = useState(null);
   const [inputSize, setInputSize] = useState("60");
+
   let styles = {
     input: {
       fontSize: `${inputSize}px`,
     },
   };
 
-  const getResult = (temp, value, operation) => {
-    value = parseFloat(value);
-    if (operation === "+") {
-      value = (temp + value).toString();
-      return value;
-    } else if (operation === "-") {
-      value = (temp - value).toString();
-      return value;
-    } else if (operation === "÷") {
-      value = (temp / value).toString();
-      return value;
-    } else if (operation === "×") {
-      value = (temp * value).toString();
-      return value;
-    }
-    return (temp + parseFloat(value)).toString();
-  };
-
   const updateValue = (key) => () => {
-    if (
-      value === "0" &&
-      key !== "AC" &&
-      key !== "+/-" &&
-      key !== "%" &&
-      key !== "×" &&
-      key !== "-" &&
-      key !== "+" &&
-      key !== "÷" &&
-      key !== "=" &&
-      key !== "."
-    ) {
-      console.log("here", value);
+    if (value === "0" && /^[1-9]*$/.test(key)) {
       setValue(key);
       return;
     }
@@ -133,6 +104,7 @@ function App() {
       setInputSize("48");
     }
   }, [value]);
+
   return (
     <div>
       <div className="App">
